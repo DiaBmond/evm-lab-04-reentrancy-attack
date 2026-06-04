@@ -1,12 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
-import {VulnerableVault} from "./VulnerableVault.sol";
+
+interface IVault {
+    function deposit() external payable;
+
+    function withdraw(uint256 amount) external;
+}
 
 contract Attacker {
-    VulnerableVault public target;
+    IVault public target;
 
-    constructor(VulnerableVault _target) {
-        target = _target;
+    constructor(address _target) {
+        target = IVault(_target);
     }
 
     function attack(uint256 amount) external payable {
