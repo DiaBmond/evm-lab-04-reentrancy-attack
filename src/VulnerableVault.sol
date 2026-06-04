@@ -15,7 +15,9 @@ contract VulnerableVault {
         // Interaction (external call) occurs BEFORE the Effect (state update), enabling reentrancy.
         (bool success,) = payable(msg.sender).call{value: amount}("");
 
-        balances[msg.sender] -= amount;
+        unchecked {
+            balances[msg.sender] -= amount;
+        }
         require(success, "Transfer failed");
     }
 }
